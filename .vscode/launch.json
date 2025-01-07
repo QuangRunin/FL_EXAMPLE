@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "DEV",
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--target",
+                "lib/main_dev.dart"
+            ]
+        },
+        {
+            "name": "STG",
+            "request": "launch",
+            "program": "lib/main_stg.dart",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "stg",
+                "--target",
+                "lib/main_stg.dart"
+            ]
+        },
+        {
+            "name": "PROD",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "prod",
+                "--target",
+                "lib/main_prod.dart"
+            ]
+        },
+     
+    ]
+}

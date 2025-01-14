@@ -142,7 +142,7 @@ class AppTextStyle {
     TextDecoration? decoration,
     double? height,
   }) {
-    return GoogleFonts.inter(
+    return GoogleFonts.bungee(
       fontWeight: fontWeight,
       fontStyle: fontStyle,
       fontSize: (size ?? 14),

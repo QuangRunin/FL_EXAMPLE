@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:example/base/base_controller.dart';
 import 'package:example/common/utils/functions.dart';
 import 'package:example/data/model/spin/spin_data.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class SplashController extends BaseController with GetTickerProviderStateMixin {
@@ -14,6 +15,9 @@ class SplashController extends BaseController with GetTickerProviderStateMixin {
   int itemCount = 15;
   List<SpinData> data = [];
   RxBool showConfetti = false.obs;
+
+  static const platform = MethodChannel('scroll_list_channel');
+  final formKey = GlobalKey<FormState>();
   @override
   void onInit() {
     _initialData();

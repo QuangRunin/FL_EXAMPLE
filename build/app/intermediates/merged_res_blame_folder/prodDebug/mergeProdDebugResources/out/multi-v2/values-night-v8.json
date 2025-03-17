@@ -1,0 +1,45 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.example.app-mergeProdDebugResources-39:/values-night-v8/values-night-v8.xml",
+            "map": [
+                {
+                    "source": "/Users/pcm/.gradle/caches/transforms-4/78302fb52e8fee51bf00b60451ea254b/transformed/appcompat-1.6.1/res/values-night-v8/values-night-v8.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,125,209,293,389,491,593,687",
+                        "endColumns": "69,83,83,95,101,101,93,88",
+                        "endOffsets": "120,204,288,384,486,588,682,771"
+                    },
+                    "to": {
+                        "startLines": "20,21,22,23,24,25,26,27",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "1086,1156,1240,1324,1420,1522,1624,1718",
+                        "endColumns": "69,83,83,95,101,101,93,88",
+                        "endOffsets": "1151,1235,1319,1415,1517,1619,1713,1802"
+                    }
+                },
+                {
+                    "source": "/Users/pcm/Desktop/Flutter/FL_EXAMPLE/android/app/src/main/res/values-night/styles.xml",
+                    "from": {
+                        "startLines": "8,2,10,25",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "424,55,589,1498",
+                        "endLines": "8,7,18,27",
+                        "endColumns": "47,12,12,12",
+                        "endOffsets": "467,419,1156,1662"
+                    },
+                    "to": {
+                        "startLines": "2,3,9,17",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,103,472,917",
+                        "endLines": "2,8,16,19",
+                        "endColumns": "47,12,12,12",
+                        "endOffsets": "98,467,912,1081"
+                    }
+                }
+            ]
+        }
+    ]
+}

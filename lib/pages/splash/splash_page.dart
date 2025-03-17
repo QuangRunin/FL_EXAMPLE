@@ -1,8 +1,13 @@
 import 'package:example/common/widget_components/app_bar_custom.dart';
+import 'package:example/common/widget_components/button/widget_button.dart';
+import 'package:example/common/widget_components/input_field/widget_input_text.dart';
 import 'package:example/import.dart';
 import 'package:example/pages/splash/component/confetti.dart';
 import 'package:example/pages/splash/component/custom_spin.dart';
 import 'package:example/pages/splash/splash_controller.dart';
+import 'package:example/pages/splash/test.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SplashPage extends BaseScreen<SplashController> {
   SplashPage({super.key});
@@ -14,33 +19,49 @@ class SplashPage extends BaseScreen<SplashController> {
       appBar: AppBarCustom(
         titleAppBar: 'a',
       ),
-      body: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Positioned(
-            bottom: -(width / 4),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                _buildSpin(width),
-                _buildCenterSpin(width),
-              ],
-            ),
-          ),
-          SizedBox.expand(
-            child: Obx(
-              () => Visibility(
-                visible: controller.showConfetti.value,
-                child: IgnorePointer(
-                  child: Confetti(
-                    isStopped: controller.showConfetti.value,
-                  ),
+      body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: GetBuilder<SplashController>(builder: (xController) {
+            return Form(
+              key: xController.formKey,
+              autovalidateMode: xController.autovalidateMode.value,
+              child: Column(children: [
+                WidgetInputText(
+                  hintText: 'Test',
+                  title: 'aaa',
+                  isRequired: true,
+                  onChanged: (p0) {
+                    print(p0);
+                  },
+                  validator: (p0) {
+                    if ((p0 ?? '').isEmpty) return "aa";
+                    return null;
+                  },
                 ),
-              ),
-            ),
-          ),
-        ],
-      ),
+                WidgetInputText(
+                  hintText: 'Test1',
+                  title: 'bbbb',
+                  isRequired: true,
+                  onChanged: (p0) {
+                    print(p0);
+                  },
+                  validator: (p0) {
+                    if ((p0 ?? '').isEmpty)
+                      return "CCCC bbbb bbbb bbbb bbbb bbbb bbbb bbbbbbbbbbbbVbbbb VVVbbbbbbbbVbbbb bbbbbbbb";
+                    return null;
+                  },
+                ),
+                WidgetButton(
+                  title: 'Test',
+                  onClick: () {
+                    controller.formKey.currentState?.validate();
+                    controller.activeValidateMode();
+                  },
+                  margin: const EdgeInsets.only(top: 10),
+                ),
+              ]),
+            );
+          })),
     );
   }
 
@@ -91,4 +112,9 @@ class SplashPage extends BaseScreen<SplashController> {
 
   @override
   SplashController? putController() => SplashController();
+}
+
+class NoPasteControls extends MaterialTextSelectionControls {
+  @override
+  Future<void> handlePaste(TextSelectionDelegate delegate) async {}
 }

@@ -12,7 +12,7 @@ abstract class BaseController extends GetxController
     with CacheManager, BaseCommonWidgets {
   LoadingController get loading => Get.find<LoadingController>();
   RxBool pageLoading = false.obs;
-
+  Rx<AutovalidateMode> autovalidateMode = AutovalidateMode.disabled.obs;
   @override
   void onInit() {
     ControllerManager().currentController.value = Get.currentRoute;
@@ -68,6 +68,11 @@ abstract class BaseController extends GetxController
   Future<void> delayHideLoading() async {
     await 0.1.seconds.delay();
     hideLoading();
+  }
+
+  void activeValidateMode() {
+    autovalidateMode.value = AutovalidateMode.always;
+    update();
   }
 
   @override

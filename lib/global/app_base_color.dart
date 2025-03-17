@@ -12,4 +12,7 @@ abstract class BaseColor {
   Color get greyColor;
   Color get borderLightColor;
   Color get inputColor;
+  // Color get inputFillColor;
+  // Color get inputBorderColor;
+  // Color get inputHintColor;
 }

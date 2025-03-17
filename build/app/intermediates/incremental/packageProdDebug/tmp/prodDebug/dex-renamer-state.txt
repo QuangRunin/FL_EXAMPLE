@@ -1,0 +1,19 @@
+#Mon Feb 24 16:54:12 ICT 2025
+base.0=/Users/pcm/Desktop/Flutter/FL_EXAMPLE/build/app/intermediates/dex/prodDebug/mergeExtDexProdDebug/classes.dex
+base.1=/Users/pcm/Desktop/Flutter/FL_EXAMPLE/build/app/intermediates/dex/prodDebug/mergeLibDexProdDebug/0/classes.dex
+base.2=/Users/pcm/Desktop/Flutter/FL_EXAMPLE/build/app/intermediates/dex/prodDebug/mergeProjectDexProdDebug/0/classes.dex
+base.3=/Users/pcm/Desktop/Flutter/FL_EXAMPLE/build/app/intermediates/dex/prodDebug/mergeProjectDexProdDebug/1/classes.dex
+base.4=/Users/pcm/Desktop/Flutter/FL_EXAMPLE/build/app/intermediates/dex/prodDebug/mergeProjectDexProdDebug/9/classes.dex
+base.5=/Users/pcm/Desktop/Flutter/FL_EXAMPLE/build/app/intermediates/dex/prodDebug/mergeExtDexProdDebug/classes2.dex
+path.0=classes.dex
+path.1=0/classes.dex
+path.2=0/classes.dex
+path.3=1/classes.dex
+path.4=9/classes.dex
+path.5=classes2.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
+renamed.2=classes3.dex
+renamed.3=classes4.dex
+renamed.4=classes5.dex
+renamed.5=classes6.dex

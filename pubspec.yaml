@@ -54,7 +54,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   firebase_remote_config: ^5.1.0
   firebase_core: ^3.4.0
-  smart_scroll: ^0.0.2
+  smart_scroll: ^1.0.0
   package_info_plus: ^8.0.0
   android_id: ^0.4.0
   flutter_inappwebview: ^6.1.5

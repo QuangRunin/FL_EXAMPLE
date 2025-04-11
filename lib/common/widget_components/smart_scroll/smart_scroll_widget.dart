@@ -35,15 +35,16 @@ mixin SmartLoadListWidget {
           bool isSliverBar = false,
           bool isNotExamPage = true,
           ScrollPhysics? scrollPhysics}) =>
-      _smartScroll(controller,
-          child: child,
-          enablePullDown: enablePullDown,
-          enablePullUp: enablePullUp,
-          headerHeight: headerHeight,
-          isSliverBar: isSliverBar,
-          scrollController: scrollController,
-          scrollPhysics: scrollPhysics,
-          isNotExamPage: isNotExamPage);
+      _smartScroll(
+        controller,
+        child: child,
+        enablePullDown: enablePullDown,
+        enablePullUp: enablePullUp,
+        headerHeight: headerHeight,
+        isSliverBar: isSliverBar,
+        scrollController: scrollController,
+        scrollPhysics: scrollPhysics,
+      );
 
   Widget _smartScroll(SmartLoadListController controller,
       {Widget? child,
@@ -52,7 +53,6 @@ mixin SmartLoadListWidget {
       double headerHeight = 20,
       ScrollController? scrollController,
       bool isSliverBar = false,
-      bool isNotExamPage = true,
       ScrollPhysics? scrollPhysics}) {
     return Obx(
       () => Stack(
@@ -71,9 +71,8 @@ mixin SmartLoadListWidget {
                 : SmartScroll(
                     key: const ValueKey('smartScrollContent'),
                     physics: scrollPhysics ??
-                        (GetPlatform.isIOS
-                            ? const BouncingScrollPhysics()
-                            : const ClampingScrollPhysics()),
+                        const AlwaysScrollableScrollPhysics(
+                            parent: RangeMaintainingScrollPhysics()),
                     controller: controller.refreshController,
                     scrollController: isSliverBar
                         ? null
@@ -107,18 +106,22 @@ mixin SmartLoadListWidget {
                       height: 65.r,
                       completeDuration: const Duration(milliseconds: 1500),
                       idleIcon: const SizedBox(),
-                      loadingIcon: SizedBox(
-                        height: 30.r,
-                        width: 30.r,
-                        child: const CircularProgressIndicator(
-                          color: Colors.grey,
-                          strokeWidth: 2.5,
+                      loadingIcon: Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: SizedBox(
+                          height: 30.r,
+                          width: 30.r,
+                          child: const CircularProgressIndicator(
+                            color: Colors.grey,
+                            strokeWidth: 3,
+                          ),
                         ),
                       ),
                     ),
                     child: controller.error.value != null
                         ? ErrorMessage(err: controller.error.value)
-                        : controller.dataList.isEmpty && isNotExamPage
+                        : controller.items.isEmpty &&
+                                controller.data?.value == null
                             ? ErrorMessage(
                                 message: controller.emptyMessage.value)
                             : child,
@@ -134,9 +137,7 @@ mixin SmartLoadListWidget {
                     color: appThemes.mainColor,
                     type: CustomLoadingType.start,
                   )
-                : const SizedBox.shrink(
-                    key: ValueKey('noLoadingPage'),
-                  ),
+                : const SizedBox.shrink(key: ValueKey('noLoadingPage')),
           ),
         ],
       ),

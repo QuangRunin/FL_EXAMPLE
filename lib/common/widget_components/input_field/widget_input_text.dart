@@ -2,104 +2,96 @@ import 'package:flutter/services.dart';
 import 'package:example/import.dart';
 
 class WidgetInputText extends StatefulWidget {
-  const WidgetInputText(
-      {super.key,
-      this.iconLeading,
-      this.widgetLeading,
-      required this.hintText,
-      required this.controller,
-      this.currentNode,
-      this.title = '',
-      this.submitFunc,
-      this.obscureText = false,
-      this.iconNextTextInputAction = TextInputAction.next,
-      this.textCapitalization = TextCapitalization.none,
-      this.textInputType = TextInputType.text,
-      this.inputFormatters,
-      this.onChanged,
-      this.maxLengthInputForm = 500,
-      this.isReadOnly = false,
-      this.maxLines,
-      this.minLines,
-      this.fontSize = 16,
-      this.suffixIcon,
-      this.hintFontSize = 12,
-      this.fillColor,
-      this.scrollPadding,
-      this.textAlign,
-      this.styleText,
-      this.hintStyle,
-      this.clearText,
-      this.validator,
-      this.suffixText,
-      this.errText = '',
-      this.height,
-      this.contentPadding,
-      this.borderColor,
-      this.useSuffix = false,
-      this.onPhoneTap,
-      this.iconLeadingImage,
-      this.marginTop = 24,
-      this.borderRadius = 12,
-      this.enabledBorder = false,
-      this.showRequired = false,
-      this.showOptional = false,
-      this.paddingTitleBottom = 7,
-      this.onPress,
-      this.toolTipMessage,
-      this.isIconSearch = false,
-      this.autoFocus = false,
-      this.titleStyle,
-      this.onTapOutSide});
+  const WidgetInputText({
+    super.key,
+    this.prefixIcon,
+    required this.hintText,
+    this.controller,
+    this.focusNode,
+    this.title = '',
+    this.submitFunc,
+    this.obscureText = false,
+    this.iconNextTextInputAction = TextInputAction.next,
+    this.textCapitalization = TextCapitalization.none,
+    this.textInputType = TextInputType.text,
+    this.inputFormatters,
+    required this.onChanged,
+    this.maxLengthInputForm = 500,
+    this.isReadOnly = false,
+    this.maxLines,
+    this.minLines,
+    this.titleFontSize = 16,
+    this.suffixIcon,
+    this.hintFontSize = 12,
+    this.fillColor,
+    this.scrollPadding,
+    this.textAlign,
+    this.styleText,
+    this.hintStyle,
+    this.clearText,
+    this.validator,
+    this.suffixText,
+    this.height,
+    this.contentPadding,
+    this.borderColor,
+    this.marginTop = 24,
+    this.borderRadius = 12,
+    this.enabledBorder = false,
+    this.isRequired = false,
+    this.paddingTitleBottom = 7,
+    this.onPress,
+    this.toolTipMessage,
+    this.autoFocus = false,
+    this.titleStyle,
+    this.onTapOutSide,
+    this.prefixIconSvg,
+    this.suffixIconSvg,
+    this.initialValue,
+  });
 
-  final EdgeInsets? scrollPadding;
-  final String title;
-  final Color? fillColor;
-  final double hintFontSize;
-  final Color? borderColor;
-  final double borderRadius;
-  final String errText;
-  final String? iconLeading;
-  final String? iconLeadingImage;
-  final Widget? widgetLeading;
-  final String hintText;
-  final TextEditingController controller;
-  final FocusNode? currentNode;
+  final Function()? submitFunc;
+  final Function(String) onChanged;
+  final Function()? clearText;
+  final Function()? onPress;
+  final Function(PointerDownEvent)? onTapOutSide;
   final bool obscureText;
   final bool isReadOnly;
-  final Function()? submitFunc;
+  final bool enabledBorder;
+  final bool isRequired;
+  final bool autoFocus;
+  final String? Function(String?)? validator;
+  final EdgeInsets? scrollPadding;
+  final String title;
+  final String? prefixIconSvg;
+  final String? suffixIconSvg;
+  final String hintText;
+  final String? suffixText;
+  final String? toolTipMessage;
+  final Color? fillColor;
+  final Color? borderColor;
+  final double hintFontSize;
+  final double borderRadius;
+  final double titleFontSize;
+  final double? height;
+  final double paddingTitleBottom;
+  final double marginTop;
+  final int? maxLines;
+  final int maxLengthInputForm;
+  final int? minLines;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
   final TextInputAction iconNextTextInputAction;
   final TextCapitalization textCapitalization;
   final TextInputType textInputType;
-  final int maxLengthInputForm;
   final List<TextInputFormatter>? inputFormatters;
-  final Function(String)? onChanged;
-  final Widget? suffixIcon;
-  final int? maxLines;
-  final int? minLines;
-  final double fontSize;
   final TextStyle? styleText;
   final TextStyle? hintStyle;
-  final TextAlign? textAlign;
-  final Function()? clearText;
-  final double? height;
-  final String? suffixText;
-  final EdgeInsets? contentPadding;
-  final String? Function(String?)? validator;
-  final bool useSuffix;
-  final double marginTop;
-  final Function()? onPhoneTap;
-  final Function()? onPress;
-  final bool enabledBorder;
-  final bool showRequired;
-  final bool showOptional;
-  final String? toolTipMessage;
-  final double paddingTitleBottom;
-  final bool isIconSearch;
-  final bool autoFocus;
   final TextStyle? titleStyle;
-  final Function(PointerDownEvent)? onTapOutSide;
-
+  final TextAlign? textAlign;
+  final EdgeInsets? contentPadding;
+  final String? initialValue;
   @override
   State<WidgetInputText> createState() => _WidgetInputTextState();
 }
@@ -107,311 +99,271 @@ class WidgetInputText extends StatefulWidget {
 class _WidgetInputTextState extends State<WidgetInputText> with BaseMixin {
   final RxBool _isShowButtonClear = false.obs;
   final RxBool _isShowText = false.obs;
-  String? errText;
+  late TextEditingController _controller;
   @override
   void initState() {
     super.initState();
+    _controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
     _isShowText.value = widget.obscureText;
-    widget.controller.addListener(() {
-      if (widget.controller.text.isNotEmpty) {
-        _isShowButtonClear.value = true;
-      } else {
-        _isShowButtonClear.value = false;
-      }
-    });
-    widget.currentNode?.addListener(() {
-      if (widget.currentNode?.hasFocus == false) {
-        widget.controller.text = widget.controller.text.trim();
-      }
+    _setupControllerListener();
+    _setupFocusNodeListener();
+  }
+
+  void _setupControllerListener() {
+    _controller.addListener(() {
+      _isShowButtonClear.value = _controller.text.isNotEmpty;
     });
   }
 
-  @override
-  void setState(Function() fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
+  void _setupFocusNodeListener() {
+    widget.focusNode?.addListener(() {
+      if (widget.focusNode?.hasFocus == false) {
+        _controller.text = _controller.text.trim();
+      }
+    });
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget.controller.addListener(
-      () => setState(() {}),
-    );
     return Padding(
       padding: EdgeInsets.only(top: widget.marginTop.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          if (widget.title.isNotEmpty)
-            Padding(
-              padding: EdgeInsets.only(bottom: widget.paddingTitleBottom.r),
-              child: RichText(
-                text: TextSpan(children: [
-                  TextSpan(
-                    text: widget.title,
-                    style: textStyle.regular(size: 16),
-                  ),
-                  WidgetSpan(
-                      child: widget.showRequired
-                          ? Container(
-                              color: color.redColor,
-                              margin: const EdgeInsets.only(left: 5),
-                              padding: const EdgeInsets.only(
-                                  left: 7, right: 7, top: 4, bottom: 3),
-                              child: Text(
-                                'LocaleKeys.required.tr',
-                                style: textStyle.bold(
-                                    size: 10, color: color.white, height: 1),
-                              ),
-                            )
-                          : const SizedBox()),
-                  // WidgetSpan(
-                  //     child: widget.showOptional
-                  //         ? OptionalWidget(
-                  //             backgroundColor: color.white.withOpacity(0.4),
-                  //           )
-                  //         : const SizedBox()),
-                ]),
-              ),
-            )
-          else
-            const SizedBox(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: widget.onPress,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        autofocus: widget.autoFocus,
-                        autocorrect: false,
-                        onTapOutside: widget.onTapOutSide,
-                        enableSuggestions: false,
-                        textAlignVertical: TextAlignVertical.top,
-                        maxLines:
-                            widget.obscureText ? 1 : (widget.maxLines ?? 1),
-                        minLines:
-                            widget.obscureText ? 1 : (widget.minLines ?? 1),
-                        obscuringCharacter: '•',
-                        scrollPadding: widget.scrollPadding ??
-                            EdgeInsets.only(
-                                left: 20.r,
-                                right: 20.r,
-                                top: 20.r,
-                                bottom: 40.r),
-                        textCapitalization: widget.textCapitalization,
-                        maxLength: widget.maxLengthInputForm,
-                        inputFormatters: widget.obscureText
-                            ? [FilteringTextInputFormatter.deny(RegExp(r'\s'))]
-                            : (widget.inputFormatters ?? []),
-                        textAlign: widget.textAlign ?? TextAlign.start,
-                        enabled: !widget.isReadOnly,
-                        // readOnly: widget.isReadOnly,
-                        style: widget.styleText ??
-                            textStyle.regular(color: color.black, size: 16),
-                        onChanged: (String v) {
-                          if (!_isShowButtonClear.value || v.isEmpty) {
-                            _isShowButtonClear.value = v.isNotEmpty;
-                          }
-                          widget.onChanged?.call(v);
-                        },
-                        validator: (value) {
-                          if (widget.validator != null) {
-                            setState(() => errText = widget.validator!(value));
-                            return widget.validator!(value);
-                          } else {
-                            return null;
-                          }
-                        },
-                        textInputAction: widget.iconNextTextInputAction,
-                        controller: widget.controller,
-                        obscureText: _isShowText.value,
-                        focusNode: widget.currentNode,
-                        keyboardType: widget.textInputType,
-                        onFieldSubmitted: (String v) {
-                          if (widget.submitFunc != null) {
-                            widget.submitFunc!();
-                          } else {
-                            if (widget.currentNode != null) {
-                              widget.currentNode!.unfocus();
-                            }
-                          }
-                        },
-                        cursorColor: color.mainColor,
-                        decoration: InputDecoration(
-                          errorStyle: textStyle.regular(
-                              size: 12, color: color.redColor),
-                          hintStyle: widget.hintStyle ??
-                              textStyle.regular(
-                                  size: 16, color: color.color999999),
-                          hintText: widget.hintText,
-                          fillColor: widget.fillColor ??
-                              (widget.controller.text.isNotEmpty
-                                  ? color.inputColor
-                                  : color.inputColor),
-                          filled: true,
-                          isDense: true,
-                          errorMaxLines: null,
-                          border: !widget.isReadOnly
-                              ? CustomFocusBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      widget.borderRadius.r),
-                                  innerBorderSide: BorderSide(
-                                      width: 0.5.r,
-                                      color: color.borderLightColor
-                                          .withValues(alpha: 0.3)),
-                                  outerBorderSide: BorderSide(
-                                      width: 0.5.r,
-                                      color: color.borderLightColor
-                                          .withValues(alpha: 0.3)),
-                                )
-                              : CustomFocusBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      widget.borderRadius.r),
-                                  innerBorderSide: BorderSide(
-                                      width: 0.5.r, color: Colors.transparent),
-                                  outerBorderSide: BorderSide(
-                                      width: 0.5.r, color: Colors.transparent),
-                                ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(widget.borderRadius),
-                            borderSide: BorderSide(
-                              width: 1.r,
-                              color: color.redColor,
-                            ),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(widget.borderRadius),
-                            borderSide: BorderSide(
-                              width: 1.r,
-                              color: color.redColor,
-                            ),
-                          ),
-                          enabledBorder: !widget.enabledBorder
-                              ? OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      widget.borderRadius.r),
-                                  borderSide: BorderSide(
-                                    width: 1.r,
-                                    color: color.borderLightColor,
-                                  ),
-                                )
-                              : OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      widget.borderRadius.r),
-                                  borderSide: BorderSide.none),
-                          focusedBorder: CustomFocusBorder(
-                            borderRadius:
-                                BorderRadius.circular(widget.borderRadius.r),
-                            innerBorderSide:
-                                BorderSide(width: 1.r, color: color.mainColor),
-                            outerBorderSide: BorderSide(
-                                width: 3.r,
-                                color: color.mainColor.withValues(alpha: 0.2)),
-                          ),
-                          contentPadding: widget.contentPadding ??
-                              EdgeInsets.fromLTRB(10.r, 16.r, 0.r, 16.r),
-                          prefixIcon: _buildPrefixIcon,
-                          prefixIconConstraints:
-                              BoxConstraints(maxWidth: 60.r, maxHeight: 40.r),
-                          suffixIcon:
-                              widget.useSuffix || widget.suffixText != null
-                                  ? null
-                                  : _buildSuffixIcon,
-                          suffix: !widget.useSuffix || widget.suffixText != null
-                              ? null
-                              : _buildSuffixIcon,
-                          suffixText: widget.suffixText,
-                          suffixIconConstraints:
-                              BoxConstraints(maxWidth: 60.r, maxHeight: 40.r),
-                          counterStyle:
-                              const TextStyle(height: double.minPositive),
-                          counterText: '',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // _errBuilder(),
-            ],
-          ),
+        children: [
+          if (widget.title.isNotEmpty) _buildTitle(),
+          _buildTextField(),
         ],
       ),
     );
   }
 
-  Widget? get _buildPrefixIcon {
-    return widget.iconLeading != null
-        ? Padding(
-            padding: EdgeInsets.only(left: 20.r, right: 10.r),
-            child: SvgPicture.asset(
-              widget.iconLeading!,
-              width: widget.isIconSearch ? 17.5.w : 20.w,
-              height: widget.isIconSearch ? 17.5.h : 20.h,
+  Widget _buildTitle() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: widget.paddingTitleBottom.r),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: widget.title,
+              style: widget.titleStyle ?? textStyle.regular(size: 16),
             ),
-          )
-        : null;
+            if (widget.isRequired) _buildRequiredIndicator(),
+          ],
+        ),
+      ),
+    );
   }
 
-  Widget? get _buildSuffixIcon {
-    if (widget.suffixIcon != null) {
-      return Padding(
-        padding: EdgeInsets.only(right: 10.r),
-        child: widget.suffixIcon,
-      );
+  WidgetSpan _buildRequiredIndicator() {
+    return WidgetSpan(
+      child: Container(
+        margin: const EdgeInsets.only(left: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+        color: color.redColor,
+        child: Text(
+          'Required',
+          style: textStyle.bold(size: 10, color: color.white, height: 1),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField() {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: widget.onPress,
+      child: TextFormField(
+        autofocus: widget.autoFocus,
+        controller: _controller,
+        focusNode: widget.focusNode,
+        obscureText: _isShowText.value,
+        readOnly: widget.isReadOnly,
+        keyboardType: widget.textInputType,
+        textInputAction: widget.iconNextTextInputAction,
+        textCapitalization: widget.textCapitalization,
+        maxLength: widget.maxLengthInputForm,
+        maxLines: widget.obscureText ? 1 : (widget.maxLines ?? 1),
+        minLines: widget.obscureText ? 1 : (widget.minLines ?? 1),
+        inputFormatters: _getInputFormatters(),
+        textAlign: widget.textAlign ?? TextAlign.start,
+        style: widget.styleText ??
+            textStyle.regular(color: color.black, size: widget.titleFontSize),
+        scrollPadding: widget.scrollPadding ??
+            EdgeInsets.only(left: 20.r, right: 20.r, top: 20.r, bottom: 40.r),
+        onChanged: (value) => widget.onChanged.call(value.trim()),
+        onFieldSubmitted: _handleSubmit,
+        validator: (value) {
+          if (widget.validator == null) return null;
+          return widget.validator!(value);
+        },
+        decoration: _buildDecoration(),
+      ),
+    );
+  }
+
+  List<TextInputFormatter> _getInputFormatters() {
+    if (widget.obscureText) {
+      return [FilteringTextInputFormatter.deny(RegExp(r'\s'))];
     }
-    if (widget.isReadOnly) {
+    return widget.inputFormatters ?? [];
+  }
+
+  void _handleSubmit(String value) {
+    widget.submitFunc?.call() ?? widget.focusNode?.unfocus();
+  }
+
+  InputDecoration _buildDecoration() {
+    return InputDecoration(
+      hintText: widget.hintText,
+      hintStyle: widget.hintStyle ??
+          textStyle.regular(
+              size: widget.titleFontSize, color: color.color999999),
+      fillColor: widget.fillColor ??
+          (_controller.text.isNotEmpty ? color.inputColor : color.inputColor),
+      filled: true,
+      isDense: true,
+      contentPadding:
+          widget.contentPadding ?? EdgeInsets.fromLTRB(10.r, 16.r, 0.r, 16.r),
+      prefixIcon: _buildPrefixIcon(),
+      suffixIcon: _buildSuffixIcon(),
+      suffixText: widget.suffixText,
+      counterText: '',
+      border: _buildBorder(),
+      enabledBorder: _buildEnabledBorder(),
+      focusedBorder: _buildFocusedBorder(),
+      errorBorder: _buildErrorBorder(),
+      focusedErrorBorder: _buildErrorBorder(),
+      errorStyle: textStyle.regular(size: 10, color: color.redColor),
+      errorMaxLines: 10,
+    );
+  }
+
+  InputBorder _buildBorder() {
+    return widget.isReadOnly
+        ? CustomFocusBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius.r),
+            innerBorderSide:
+                BorderSide(width: 0.5.r, color: Colors.transparent),
+            outerBorderSide:
+                BorderSide(width: 0.5.r, color: Colors.transparent),
+          )
+        : CustomFocusBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius.r),
+            innerBorderSide: BorderSide(
+                width: 0.5.r,
+                color: color.borderLightColor.withValues(alpha: 0.3)),
+            outerBorderSide: BorderSide(
+                width: 0.5.r,
+                color: color.borderLightColor.withValues(alpha: 0.3)),
+          );
+  }
+
+  InputBorder _buildEnabledBorder() {
+    return widget.enabledBorder
+        ? OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius.r),
+            borderSide: BorderSide.none,
+          )
+        : OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius.r),
+            borderSide: BorderSide(width: 1.r, color: color.borderLightColor),
+          );
+  }
+
+  InputBorder _buildFocusedBorder() {
+    return CustomFocusBorder(
+      borderRadius: BorderRadius.circular(widget.borderRadius.r),
+      innerBorderSide: BorderSide(width: 1.r, color: color.mainColor),
+      outerBorderSide:
+          BorderSide(width: 3.r, color: color.mainColor.withValues(alpha: 0.2)),
+    );
+  }
+
+  InputBorder _buildErrorBorder() {
+    return CustomFocusBorder(
+      borderRadius: BorderRadius.circular(widget.borderRadius.r),
+      innerBorderSide: BorderSide(width: 1.r, color: color.redColor),
+      outerBorderSide:
+          BorderSide(width: 2.r, color: color.redColor.withValues(alpha: 0.3)),
+    );
+  }
+  // InputBorder _buildErrorBorder() {
+  //   return OutlineInputBorder(
+  //     borderRadius: BorderRadius.circular(widget.borderRadius),
+  //     borderSide: BorderSide(width: 1.r, color: color.redColor),
+  //   );
+  // }
+
+  Widget? _buildPrefixIcon() {
+    if (widget.prefixIcon == null && widget.prefixIconSvg == null) {
       return null;
     }
-    return widget.obscureText
+    return Padding(
+      padding: EdgeInsets.only(left: 20.r, right: 10.r),
+      child: widget.prefixIcon ??
+          SvgPicture.asset(
+            widget.prefixIconSvg!,
+            width: 20.w,
+            height: 20.h,
+          ),
+    );
+  }
+
+  Widget? _buildSuffixIcon() {
+    if (widget.suffixIcon != null && widget.suffixIconSvg == null) {
+      return Padding(
+        padding: EdgeInsets.only(right: 10.r),
+        child: widget.suffixIcon ??
+            SvgPicture.asset(
+              widget.suffixIconSvg!,
+              width: 20.w,
+              height: 20.h,
+            ),
+      );
+    }
+    if (widget.isReadOnly) return null;
+
+    return Obx(() => widget.obscureText
         ? InkWell(
-            onTap: () {
-              setState(() {
-                _isShowText.toggle();
-              });
-            },
+            onTap: () => _isShowText.toggle(),
             child: Padding(
               padding: const EdgeInsets.only(right: 12.0),
               child: SvgPicture.asset(
-                  _isShowText.value
-                      ? AssetIcons.iconEyeInactive
-                      : AssetIcons.iconEyeActive,
-                  width: 20.w),
+                _isShowText.value
+                    ? AssetIcons.iconEyeInactive
+                    : AssetIcons.iconEyeActive,
+                width: 20.w,
+              ),
             ),
           )
         : Visibility(
-            visible: _isShowButtonClear.value && !widget.isReadOnly,
-            child: InkWell(
-              onTap: () {
-                widget.controller.clear();
-                _isShowButtonClear.value = false;
-                if (widget.clearText != null) {
-                  widget.clearText!();
-                }
-              },
+            visible: _isShowButtonClear.value,
+            child: GestureDetector(
+              onTap: _clearText,
+              behavior: HitTestBehavior.opaque,
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: widget.useSuffix ? 0 : 14),
+                padding: EdgeInsets.symmetric(
+                    horizontal: widget.suffixIcon != null ? 0 : 14),
                 child: Icon(
                   Icons.cancel_rounded,
                   color: color.color999999,
-                  size: 16.r,
+                  size: 18.r,
                 ),
               ),
             ),
-          );
+          ));
+  }
+
+  void _clearText() {
+    _controller.clear();
+    widget.clearText?.call();
   }
 }
 

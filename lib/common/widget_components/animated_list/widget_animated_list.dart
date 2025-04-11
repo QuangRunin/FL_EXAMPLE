@@ -1,6 +1,8 @@
 import 'package:example/import.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+enum AnimationType { fade, slide, scale, flip }
+
 class WidgetAnimatedList<T> extends StatefulWidget {
   const WidgetAnimatedList({
     super.key,
@@ -10,11 +12,10 @@ class WidgetAnimatedList<T> extends StatefulWidget {
     this.physics,
     this.padding,
     this.isExpanded = false,
-    this.itemPadding,
-    this.onSlidablePressed,
-    this.widgetNoData,
     this.isLoading = false,
     this.scrollDirection = Axis.vertical,
+    this.animType = AnimationType.slide,
+    this.curve = Curves.easeInOut,
   });
   final Widget Function(BuildContext, int) itemBuilder;
   final int itemCount;
@@ -22,11 +23,10 @@ class WidgetAnimatedList<T> extends StatefulWidget {
   final ScrollPhysics? physics;
   final EdgeInsets? padding;
   final bool isExpanded;
-  final EdgeInsets? itemPadding;
-  final Function(int index)? onSlidablePressed;
-  final Widget? widgetNoData;
   final bool isLoading;
   final Axis scrollDirection;
+  final AnimationType animType;
+  final Curve curve;
   @override
   @override
   State<WidgetAnimatedList<T>> createState() => _WidgetAnimatedListState<T>();
@@ -53,25 +53,58 @@ class _WidgetAnimatedListState<T> extends State<WidgetAnimatedList<T>> {
         scrollDirection: widget.scrollDirection,
         shrinkWrap: true,
         primary: false,
+        cacheExtent: 300,
+        physics: widget.physics ?? const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return AnimationConfiguration.staggeredList(
             position: index,
             duration: const Duration(milliseconds: 350),
-            child: SlideAnimation(
-              verticalOffset: 50.0,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeInOut,
+            child: _animation(
+              type: widget.animType,
+              curve: widget.curve,
               child: FadeInAnimation(
                 duration: const Duration(milliseconds: 400),
-                child: Padding(
-                  padding: widget.itemPadding ?? EdgeInsets.zero,
-                  child: widget.itemBuilder(context, index),
-                ),
+                child: widget.itemBuilder(context, index),
               ),
             ),
           );
         },
       ),
     );
+  }
+
+  Widget _animation({
+    required AnimationType type,
+    required Widget child,
+    required Curve curve,
+  }) {
+    switch (type) {
+      case AnimationType.fade:
+        return FadeInAnimation(
+          duration: const Duration(milliseconds: 250),
+          curve: curve,
+          child: child,
+        );
+      case AnimationType.slide:
+        return SlideAnimation(
+          verticalOffset: 50.0,
+          duration: const Duration(milliseconds: 250),
+          curve: curve,
+          child: child,
+        );
+      case AnimationType.scale:
+        return ScaleAnimation(
+          duration: const Duration(milliseconds: 250),
+          curve: curve,
+          child: child,
+        );
+      case AnimationType.flip:
+        return FlipAnimation(
+          duration: const Duration(milliseconds: 250),
+          curve: curve,
+          flipAxis: FlipAxis.y,
+          child: child,
+        );
+    }
   }
 }

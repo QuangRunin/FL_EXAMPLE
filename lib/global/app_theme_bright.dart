@@ -7,22 +7,17 @@ class AppThemeBright extends AppTheme {
 
   @override
   ThemeData get theme => ThemeData(
-      // scaffoldBackgroundColor: background0,
-      // backgroundColor: background0,
-      // primaryColor: primary,
-      // dialogBackgroundColor: grey90,
-      appBarTheme: _buildAppBarTheme,
-      bottomAppBarTheme: _buildBottomAppBarTheme,
-      dialogTheme: _buildDialogTheme);
+        scaffoldBackgroundColor: backgroundColor,
+        dialogBackgroundColor: mainColor,
+        appBarTheme: _buildAppBarTheme,
+        bottomAppBarTheme: _buildBottomAppBarTheme,
+        dialogTheme: _buildDialogTheme,
+      );
   AppBarTheme get _buildAppBarTheme => AppBarTheme(
         elevation: 0,
         iconTheme: IconThemeData(color: backgroundColor),
-        // textTheme: TextTheme(),
-        titleTextStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-        ),
       );
+
   BottomAppBarTheme get _buildBottomAppBarTheme =>
       const BottomAppBarTheme(elevation: 0, color: Colors.red);
 
@@ -60,5 +55,5 @@ class AppThemeBright extends AppTheme {
 
   @override
   @override
-  Color get disableButtonColor => const Color(0xFFF1F1F1);
+  Color get disableButtonColor => const Color(0xFF999999);
 }

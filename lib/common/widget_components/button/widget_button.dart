@@ -1,5 +1,9 @@
+import 'package:example/base/base_mixin.dart';
 import 'package:example/common/utils/functions.dart';
-import 'package:example/import.dart';
+import 'package:example/global/app_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 enum TypeButton { active, inactive, secondary, ghost }
 
@@ -21,7 +25,6 @@ class WidgetButton extends StatelessWidget with BaseMixin {
     this.margin,
     this.padding = 16,
     this.disable = false,
-    this.isLoading = false,
     this.elevation = 0,
   });
 
@@ -41,7 +44,6 @@ class WidgetButton extends StatelessWidget with BaseMixin {
   final EdgeInsets? margin;
   final double padding;
   final bool disable;
-  final bool isLoading;
   final double elevation;
   @override
   Widget build(BuildContext context) {
@@ -50,18 +52,12 @@ class WidgetButton extends StatelessWidget with BaseMixin {
       child: ConstrainedBox(
         constraints: BoxConstraints.expand(width: width, height: height.h),
         child: ElevatedButton(
-          onPressed: disable || isLoading ? null : onClick,
+          onPressed: disable ? null : onClick,
           style: ElevatedButton.styleFrom(
             elevation: elevation,
             backgroundColor: backgroundColor ?? color.mainColor,
             disabledBackgroundColor: color.disableButtonColor,
-            // primary: bgColor ??
-            //     (disable || isLoading ? color.neutral7 : color.appBaseColor),
-            // disabledBackgroundColor: isLoading ? color.appBaseColor : null,
-            // shadowColor: bgColor != color.appBaseColor
-            //     ? Colors.transparent
-            //     : color.mainColor,
-            shadowColor: Colors.transparent,
+            shadowColor: color.disableButtonColor,
             padding: EdgeInsets.symmetric(horizontal: padding),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),

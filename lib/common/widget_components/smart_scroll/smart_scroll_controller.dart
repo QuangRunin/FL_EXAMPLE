@@ -14,7 +14,8 @@ mixin SmartLoadListController<T> {
   Rx<ApiError?> error = RxNullable<ApiError?>().setNull();
   Rx<String?> emptyMessage = RxNullable<String?>().setNull();
 
-  RxList<T> dataList = <T>[].obs;
+  RxList<T> items = <T>[].obs;
+  Rx<T?>? data = Rx<T?>(null);
 
   void jumToPosition({double? position}) {
     if (smartScrollController.hasClients) {

@@ -1,11 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages
-
-import 'dart:convert';
 import 'package:example/base/loading_wrapper.dart';
 import 'package:example/common/utils/utils.dart';
 import 'package:example/data/model/common/app_version.dart';
 import 'package:example/generated/locales.g.dart';
-import 'package:example/service/firebase/remote_config_service.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -28,13 +25,13 @@ class RemoteManager {
     activeOTP = value;
   }
 
-  void _initRemote() {
-    final String data =
-        RemoteConfigService().remoteConfig.getString('app_version').toString();
-    if (data.isNotEmpty) {
-      updateVersion = AppVersionModel.fromMap(jsonDecode(data));
-    }
-  }
+  // void _initRemote() {
+  //   final String data =
+  //       RemoteConfigService().remoteConfig.getString('app_version').toString();
+  //   if (data.isNotEmpty) {
+  //     updateVersion = AppVersionModel.fromMap(jsonDecode(data));
+  //   }
+  // }
 
   void upgradeApp() {
     Future(() async {

@@ -3,7 +3,7 @@ export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:flutter_svg/svg.dart';
 export 'package:get/get.dart';
 export 'package:example/base/import_base.dart';
-export 'package:example/extensions/extensions.dart';
+export 'package:example/common/extensions/extensions.dart';
 export 'package:example/generated/locales.g.dart';
 export 'package:example/global/app_dimension.dart';
 export 'package:example/global/app_log.dart';

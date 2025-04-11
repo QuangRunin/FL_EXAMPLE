@@ -8,10 +8,7 @@ class AppThemeBlack extends AppTheme {
   @override
   ThemeData get theme => ThemeData(
         scaffoldBackgroundColor: backgroundColor,
-        // backgroundColor: neutral800,
-        // primaryColor: primary,
-        // dialogBackgroundColor: grey90,
-        fontFamily: 'SF-REGULAR',
+        dialogBackgroundColor: mainColor,
         appBarTheme: _buildAppBarTheme,
         bottomAppBarTheme: _buildBottomAppBarTheme,
         dialogTheme: _buildDialogTheme,
@@ -19,11 +16,6 @@ class AppThemeBlack extends AppTheme {
   AppBarTheme get _buildAppBarTheme => AppBarTheme(
         elevation: 0,
         iconTheme: IconThemeData(color: backgroundColor),
-        // textTheme: TextTheme(),
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
       );
 
   BottomAppBarTheme get _buildBottomAppBarTheme =>
@@ -62,5 +54,5 @@ class AppThemeBlack extends AppTheme {
   Color get inputColor => const Color(0xFFFCFCFC);
 
   @override
-  Color get disableButtonColor => const Color(0xFFF1F1F1);
+  Color get disableButtonColor => const Color(0xFF999999);
 }

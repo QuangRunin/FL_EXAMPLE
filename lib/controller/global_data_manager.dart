@@ -4,7 +4,7 @@ class GlobalDataManager with CacheManager {
   factory GlobalDataManager() {
     return _singleton;
   }
-  GlobalDataManager._internal() {}
+  GlobalDataManager._internal();
 
   bool passBoarding = false;
 

@@ -1,6 +1,5 @@
 import 'package:example/common/widget_components/animated_list/widget_animated_list.dart';
 import 'package:example/common/widget_components/app_bar_custom.dart';
-import 'package:example/common/widget_components/button/widget_button.dart';
 import 'package:example/common/widget_components/image/widget_network_image.dart';
 import 'package:example/common/widget_components/smart_scroll/smart_scroll_widget.dart';
 import 'package:example/import.dart';

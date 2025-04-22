@@ -8,7 +8,6 @@ class AppThemeBright extends AppTheme {
   @override
   ThemeData get theme => ThemeData(
         scaffoldBackgroundColor: backgroundColor,
-        dialogBackgroundColor: mainColor,
         appBarTheme: _buildAppBarTheme,
         bottomAppBarTheme: _buildBottomAppBarTheme,
         dialogTheme: _buildDialogTheme,

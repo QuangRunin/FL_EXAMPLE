@@ -1,5 +1,3 @@
-import 'package:example/global/app_text_style.dart';
-import 'package:example/global/app_theme.dart';
 import 'package:example/import.dart';
 
 class SnackBarHelper {

@@ -4,11 +4,6 @@ import 'package:example/common/widget_components/smart_scroll/smart_scroll_contr
 class SplashController extends BaseController
     with SmartLoadListController<User> {
   @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
   void onLoadMore() {
     Future.delayed(const Duration(seconds: 2), () {
       final newItems = List.generate(10, (v) => User('name')).toList();
